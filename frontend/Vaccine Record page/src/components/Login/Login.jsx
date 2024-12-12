@@ -51,11 +51,11 @@ const Login = ({ setShowLogin }) => {
             if (response.data.success) {
                 setToken(response.data.token);
                 setEmail(data.email);
+                console.log(data.email);
                 localStorage.setItem("token", response.data.token);
                 setShowLogin(false);
                 toast.success(response.data.message);
 
-                // Navigate based on login type
                 if (loginType === "parent") {
                     navigate("/parent");
                 } else {

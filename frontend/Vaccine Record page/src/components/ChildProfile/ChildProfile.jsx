@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Routes, Route, Link, useNavigate, useParams } from 'react-router-dom';
 import { User, Settings, PlusCircle } from 'lucide-react';
 import axios from "axios";
 import { toast } from 'react-toastify';
 import { assets } from '../../assets/assets';
 import ConnectWithDoctor from './ConnectWithDoctor';
+import { StoreContext } from '../../context/StoreContext';
 
 
 const initialProfileState = {
@@ -13,7 +14,6 @@ const initialProfileState = {
   age: '',
   dob: '',
   gender: '',
-  relationshipWithParent: '',
   address: {
     street: '',
     city: '',
@@ -22,8 +22,8 @@ const initialProfileState = {
     country: ''
   },
   photo: '',
-  bloodGroup: '',
-  consentForm: false,
+  // bloodGroup: '',
+  // consentForm: false,
   disability: false,
   vaccinationHistory: [
     {
@@ -77,7 +77,7 @@ const initialProfileState = {
     otherDetails: ''
   },
   upcomingVaccinations: [],
-  vaccineAvailabilityAlerts: false,
+  // vaccineAvailabilityAlerts: false,
   healthInsurance: {
     providerName: '',
     policyNumber: '',
@@ -87,21 +87,22 @@ const initialProfileState = {
 
 // Component for displaying a child profile
 const ChildProfileView = ({ profile }) => {
+  const { email } = useContext(StoreContext);
+
   return (
     <div className="bg-white p-6 rounded-lg shadow-lg">
       <h2 className="text-2xl font-bold mb-4 text-blue-800">{profile.name}</h2>
       <div className="grid grid-cols-2 gap-4">
         <p><strong>Age:</strong> {profile.age}</p>
-        <p><strong>email:</strong> {profile.email}</p>
+        <p><strong>email:</strong> {email} </p>
         <p><strong>Date of Birth:</strong> {new Date(profile.dob).toLocaleDateString()}</p>
         <p><strong>Gender:</strong> {profile.gender}</p>
-        <p><strong>Relationship:</strong> {profile.relationshipWithParent}</p>
         <p><strong>Address:</strong> {`${profile.address.street}, ${profile.address.city}, ${profile.address.state} ${profile.address.postalCode}, ${profile.address.country}`}</p>
-        <p><strong>Blood Group:</strong> {profile.bloodGroup}</p>
-        <p><strong>Consent Form:</strong> {profile.consentForm ? 'Yes' : 'No'}</p>
+        {/* <p><strong>Blood Group:</strong> {profile.bloodGroup}</p> */}
+        {/* <p><strong>Consent Form:</strong> {profile.consentForm ? 'Yes' : 'No'}</p> */}
         <p><strong>Disability:</strong> {profile.disability ? 'Yes' : 'No'}</p>
         <p><strong>Medical Condition:</strong> {profile.medicalCondition.currentCondition}</p>
-        <p><strong>Vaccine Alerts:</strong> {profile.vaccineAvailabilityAlerts ? 'Enabled' : 'Disabled'}</p>
+        {/* <p><strong>Vaccine Alerts:</strong> {profile.vaccineAvailabilityAlerts ? 'Enabled' : 'Disabled'}</p> */}
       </div>
     </div>
   );
@@ -109,9 +110,32 @@ const ChildProfileView = ({ profile }) => {
 
 
 const ProfileForm = ({ profile, setProfile, onSave, isNewProfile }) => {
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setProfile(prev => {
+
+    if (name === 'age' && value > 7) {
+      alert('Age must be less than 7');
+      return;
+    }
+    if (name === 'dob') {
+      const dob = new Date(value);
+      const today = new Date();
+      let yearsDifference = today.getFullYear() - dob.getFullYear();
+
+      const monthDiff = today.getMonth() - dob.getMonth();
+      const dayDiff = today.getDate() - dob.getDate();
+      if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+        yearsDifference--;
+      }
+
+      if (yearsDifference >= 8) {
+        alert('You must be at least 8 years old');
+        return;
+      }
+    }
+
+    setProfile((prev) => {
       if (name.includes('.')) {
         const [parent, child] = name.split('.');
         return {
@@ -125,6 +149,7 @@ const ProfileForm = ({ profile, setProfile, onSave, isNewProfile }) => {
       return { ...prev, [name]: type === 'checkbox' ? checked : value };
     });
   };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -218,17 +243,6 @@ const ProfileForm = ({ profile, setProfile, onSave, isNewProfile }) => {
             <option value="Female">Female</option>
           </select>
         </div>
-        <div>
-          <label className="block mb-2 text-blue-800">Relationship with Parent:</label>
-          <input
-            type="text"
-            name="relationshipWithParent"
-            value={profile.relationshipWithParent || ''}
-            onChange={handleChange}
-            required
-            className="w-full p-2 border rounded-md"
-          />
-        </div>
         {/* Address Fields */}
         {['street', 'city', 'state', 'postalCode', 'country'].map(field => (
           <div key={field}>
@@ -243,7 +257,7 @@ const ProfileForm = ({ profile, setProfile, onSave, isNewProfile }) => {
             />
           </div>
         ))}
-        <div>
+        {/* <div>
           <label className="block mb-2 text-blue-800">Blood Group:</label>
           <select
             name="bloodGroup"
@@ -257,9 +271,9 @@ const ProfileForm = ({ profile, setProfile, onSave, isNewProfile }) => {
               <option key={group} value={group}>{group}</option>
             ))}
           </select>
-        </div>
+        </div> */}
         {/* Checkboxes for boolean fields */}
-        {['consentForm', 'disability', 'vaccineAvailabilityAlerts'].map(field => (
+        {['disability'].map(field => (
           <div key={field} className="flex items-center">
             <label className="block mb-2 text-blue-800">{`${field.replace(/([A-Z])/g, ' $1')}:`}</label>
             <input
@@ -269,7 +283,6 @@ const ProfileForm = ({ profile, setProfile, onSave, isNewProfile }) => {
               onChange={handleChange}
               className="mr-2"
             />
-            <span>{field === 'consentForm' ? 'Signed' : 'Yes'}</span>
           </div>
         ))}
         <div>

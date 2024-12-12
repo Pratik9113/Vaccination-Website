@@ -1,10 +1,10 @@
 import ChildProfile from '../../models/parentModels/childModel.js';
 import DoctorUser from '../../models/parentModels/doctorModel.js';
 export const createChildProfile = async (req, res) => {
-    const { name, age,email, dob, gender, relationshipWithParent, address, bloodGroup, vaccinationHistory, medicalCondition, upcomingVaccinations, healthInsurance } = req.body;
+    const { name, age,email, dob, gender, address, vaccinationHistory, medicalCondition, upcomingVaccinations } = req.body;
     const { userId } = req.user;
 
-    if (!name || !age || !dob || !gender || !relationshipWithParent || !address || !bloodGroup) {
+    if (!name || !age || !dob || !gender || !address) {
         return res.status(400).json({ success: false, message: "Missing required fields" });
     }
 
@@ -16,13 +16,10 @@ export const createChildProfile = async (req, res) => {
             age,
             dob,
             gender,
-            relationshipWithParent,
             address,
-            bloodGroup,
             vaccinationHistory,
             medicalCondition,
             upcomingVaccinations,
-            healthInsurance
         });
 
         const savedChildProfile = await newChildProfile.save();

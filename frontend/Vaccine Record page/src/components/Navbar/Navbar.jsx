@@ -96,7 +96,7 @@ const Navbar = ({ setShowLogin }) => {
 
                 {/* Desktop Menu */}
                 <nav className="hidden lg:flex space-x-6">
-                    <Link to="/home" className="hover:text-blue-200 transition-colors font-bold">Home</Link>
+                    <Link to="/" className="hover:text-blue-200 transition-colors font-bold">Home</Link>
                     <Link to="/parent/view" className="hover:text-blue-200 transition-colors font-bold">Child Details</Link>
                     <Link to="/vaccine-center" className="hover:text-blue-200 transition-colors font-bold">Vaccination-Center</Link>
                     <Link to="/appointment" className="hover:text-blue-200 transition-colors font-bold">Appointment</Link>
