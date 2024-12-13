@@ -87,14 +87,13 @@ const initialProfileState = {
 
 // Component for displaying a child profile
 const ChildProfileView = ({ profile }) => {
-  const { email } = useContext(StoreContext);
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-lg">
       <h2 className="text-2xl font-bold mb-4 text-blue-800">{profile.name}</h2>
       <div className="grid grid-cols-2 gap-4">
         <p><strong>Age:</strong> {profile.age}</p>
-        <p><strong>email:</strong> {email} </p>
+        <p><strong>email:</strong> {profile.email} </p>
         <p><strong>Date of Birth:</strong> {new Date(profile.dob).toLocaleDateString()}</p>
         <p><strong>Gender:</strong> {profile.gender}</p>
         <p><strong>Address:</strong> {`${profile.address.street}, ${profile.address.city}, ${profile.address.state} ${profile.address.postalCode}, ${profile.address.country}`}</p>
@@ -110,6 +109,14 @@ const ChildProfileView = ({ profile }) => {
 
 
 const ProfileForm = ({ profile, setProfile, onSave, isNewProfile }) => {
+  const { email } = useContext(StoreContext);
+
+  useEffect(() => {
+    setProfile((prev) => ({
+      ...prev,
+      email, 
+    }));
+  }, [email, setProfile]);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -118,6 +125,7 @@ const ProfileForm = ({ profile, setProfile, onSave, isNewProfile }) => {
       alert('Age must be less than 7');
       return;
     }
+
     if (name === 'dob') {
       const dob = new Date(value);
       const today = new Date();
@@ -142,8 +150,8 @@ const ProfileForm = ({ profile, setProfile, onSave, isNewProfile }) => {
           ...prev,
           [parent]: {
             ...prev[parent],
-            [child]: type === 'checkbox' ? checked : value
-          }
+            [child]: type === 'checkbox' ? checked : value,
+          },
         };
       }
       return { ...prev, [name]: type === 'checkbox' ? checked : value };
@@ -152,6 +160,7 @@ const ProfileForm = ({ profile, setProfile, onSave, isNewProfile }) => {
 
 
   const handleSubmit = async (e) => {
+
     e.preventDefault();
     try {
       let response;
@@ -214,7 +223,7 @@ const ProfileForm = ({ profile, setProfile, onSave, isNewProfile }) => {
             name="email"
             value={profile.email || ''}
             onChange={handleChange}
-            required
+            disabled
             className="w-full p-2 border rounded-md"
           />
         </div>
@@ -331,102 +340,6 @@ const Sidebar = () => {
   );
 };
 
-// Main child profile component
-// const ChildProfile = () => {
-//   const [profiles, setProfiles] = useState([]);
-//   const [newProfile, setNewProfile] = useState(initialProfileState);
-//   const navigate = useNavigate();
-
-//   useEffect(() => {
-//     const fetchProfiles = async () => {
-//       try {
-//         const response = await axios.get(`http://localhost:5000/parent/child/children`, {
-//           withCredentials: true,
-//           headers: { "Content-Type": "application/json" },
-//         });
-//         if (response.data.success) {
-//           console.log(response.data.data);
-//           setProfiles(response.data.data);
-//         } else {
-//           console.error('Error fetching child list')
-//         }
-//       } catch (error) {
-//         console.log(`error fetching profiles`, error);
-//       }
-//     }
-//     fetchProfiles();
-//   }, []);
-
-//   const handleSave = (profile, isNewProfile = false) => {
-//     if (isNewProfile) {
-//       setProfiles(prev => [...prev, { ...profile, _id: `CHD${Date.now()}` }]);
-//     } else {
-//       setProfiles(prev => prev.map(p => p._id === profile._id ? profile : p));
-//     }
-//     navigate('/parent/cp/profiles');
-//   };
-//   return (
-//     <div className="flex bg-blue-50 min-h-screen">
-//       <Sidebar />
-//       <div className="flex-1 p-8 overflow-y-auto">
-//         <Routes>
-//           <Route path="profiles" element={
-//             <>
-//               <h2 className="text-3xl font-bold mb-6 text-blue-800">Child Profiles</h2>
-//               {profiles.length === 0 ? (
-//                 <p>No child profiles available.</p>
-//               ) : (
-//                 profiles.map(profile => (
-//                   <div className="mb-6">
-//                     <ChildProfileView key={profile.id} profile={profile} />
-//                     <Link
-//                       to={`/cp/update/${profile.id}`}
-//                       className="mt-2 inline-block bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600"
-//                     >
-//                       Update Profile
-//                     </Link>
-//                   </div>
-//                 ))
-//               )}
-//             </>
-//           } />
-//           <Route path="update/:id" element={
-//             <UpdateProfile profiles={profiles} handleSave={handleSave} />
-//           } />
-//           <Route path="add" element={
-//             <>
-//               <h2 className="text-3xl font-bold mb-6 text-blue-800">Add New Child</h2>
-//               <ProfileForm
-//                 profile={newProfile}
-//                 setProfile={setNewProfile}
-//                 onSave={() => handleSave(newProfile, true)}
-//                 isNewProfile={true}
-//               />
-//             </>
-//           } />
-//           <Route path="settings" element={
-//             <>
-//               <h2 className="text-3xl font-bold mb-6 text-blue-800">Settings</h2>
-//               <div className="bg-white p-6 rounded-lg shadow-lg">
-//                 <p>Settings page content goes here.</p>
-//               </div>
-//             </>
-//           } />
-
-
-//           <Route path="doctor" element={
-//             <>
-//               <h2 className='text-3xl font-bold mb-6 text-blue-800'>Connect With Doctor</h2>
-//               <ConnectWithDoctor />
-//             </>
-//           } />
-//         </Routes>
-
-
-//       </div>
-//     </div>
-//   );
-// };
 const ChildProfile = () => {
   const [profiles, setProfiles] = useState([]);
   const [newProfile, setNewProfile] = useState(initialProfileState);
