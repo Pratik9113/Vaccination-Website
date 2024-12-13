@@ -3,12 +3,18 @@
 import React, { useEffect, useState } from 'react';
 import './HealthcareCenters.css';
 import axios from 'axios';
-
+import {useNavigate} from 'react-router-dom';
 const vaccines = [
     { name: 'BCG', quantity: Math.floor(Math.random() * 100) }
 ];
 
 const HealthcareCenters = () => {
+    const navigate = useNavigate();
+
+    const handleAppointmentButton = (setEmail) =>{
+        navigate(`/appointment/${setEmail}`);
+    }
+
     const [visibleCenter, setVisibleCenter] = useState(null);
     const [visibleDetails, setVisibleDetails] = useState(null);
     const [healthcareCenters, setHealthcareCenters] = useState([]);
@@ -45,17 +51,6 @@ const HealthcareCenters = () => {
         fetchHealthCareCenters();
     }, []);
 
-    useEffect(() => {
-        const fetchDoseCount = async () => {
-            try {
-                const response = await axios.get('http://localhost:5000/vaccine/center/get-dose-count');
-
-            } catch (error) {
-                console.log('Error', error);
-            }
-        }
-        fetchDoseCount();
-    }, []);
 
     const filteredCenters = healthcareCenters.filter(center => {
         const matchesQuery = center.name.toLowerCase().includes(searchQuery.toLowerCase());
@@ -127,6 +122,7 @@ const HealthcareCenters = () => {
                                         {vaccine.name}: {vaccine.stock} doses left
                                     </p>
                                 ))}
+                                <button onClick={() => handleAppointmentButton(center.email)}>Appointment</button>
                             </div>
                         )}
                         <button

@@ -1,13 +1,15 @@
 
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useParams } from 'react-router-dom';
 
 const Appointment = () => {
+    const { email } = useParams();
     const [formData, setFormData] = useState({
         email: '',
-        vaccinationEmail: '',
+        vaccinationEmail: email,
         vaccine: '',
-        childName:'',
+        childName: '',
         date: '',
         time: '',
     });
@@ -30,20 +32,20 @@ const Appointment = () => {
         try {
             const response = await axios.post('http://localhost:5000/parent/child/book/book-vaccine', formData, {
                 withCredentials: true,
-                headers: { "Content-Type": "application/json"},
+                headers: { "Content-Type": "application/json" },
             });
 
 
             const sendEmail = await axios.post(`http://localhost:5000/api/mail/book-vaccine`,
                 {
-                    email : formData.email,
-                    vaccinationEmail :  formData.vaccinationEmail,
-                    vaccine : formData.vaccine,
-                    date : formData.data,
-                    time : formData.time,
+                    email: formData.email,
+                    vaccinationEmail: formData.vaccinationEmail,
+                    vaccine: formData.vaccine,
+                    date: formData.data,
+                    time: formData.time,
                 }
             )
-            
+
             setMessage(response.data.message);
             setError('');
         } catch (error) {
@@ -66,8 +68,8 @@ const Appointment = () => {
                         <input
                             type="email"
                             name="vaccinationEmail"
-                            value={formData.vaccinationEmail}
-                            onChange={handleInputChange}
+                            value={email}
+                            disabled
                             required
                             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
                         />
