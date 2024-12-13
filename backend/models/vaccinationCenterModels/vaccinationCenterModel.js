@@ -12,7 +12,7 @@ const vaccinationCenterSchema = new mongoose.Schema({
     coordinates: {
       lat: { type: Number },
       lng: { type: Number }
-    }
+    } 
   },
   operatingHours: { 
     weekdays: { type: String },  

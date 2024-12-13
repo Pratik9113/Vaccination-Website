@@ -45,8 +45,8 @@ const HealthcareCenters = () => {
         fetchHealthCareCenters();
     }, []);
 
-    useEffect(()=>{
-        const fetchDoseCount = async() =>{
+    useEffect(() => {
+        const fetchDoseCount = async () => {
             try {
                 const response = await axios.get('http://localhost:5000/vaccine/center/get-dose-count');
 
@@ -55,7 +55,7 @@ const HealthcareCenters = () => {
             }
         }
         fetchDoseCount();
-    },[]);
+    }, []);
 
     const filteredCenters = healthcareCenters.filter(center => {
         const matchesQuery = center.name.toLowerCase().includes(searchQuery.toLowerCase());
@@ -122,9 +122,9 @@ const HealthcareCenters = () => {
                         {visibleCenter === index && (
                             <div className="vaccine-quantity-list">
                                 <h4>Vaccine Quantities at {center.name}</h4>
-                                {vaccines.map((vaccine, i) => (
+                                {center.vaccineDetails.map((vaccine, i) => (
                                     <p key={i}>
-                                        {vaccine.name}: {vaccine.quantity} doses left
+                                        {vaccine.name}: {vaccine.stock} doses left
                                     </p>
                                 ))}
                             </div>
