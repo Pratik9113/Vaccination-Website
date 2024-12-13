@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-
+import {StoreContext} from "../context/StoreContext"
+import { useContext } from "react";
 const VaccineAdd = () => {
-    const [email, setEmail] = useState("");
+    const { email } = useContext(StoreContext);
     const [name, setname] = useState("");
     const [type, settype] = useState("");
     const [manufacturer, setmanufacturer] = useState("");
@@ -37,7 +38,6 @@ const VaccineAdd = () => {
             }else{
                 toast.success(response.data.message)
             }
-            setEmail("");
             setname("");
             settype("");
             setmanufacturer("");
@@ -73,8 +73,7 @@ const VaccineAdd = () => {
                                 type="email"
                                 className="w-full p-2 border rounded"
                                 value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                required
+                                disabled
                             />
                         </div>
                         <div className="mb-4">

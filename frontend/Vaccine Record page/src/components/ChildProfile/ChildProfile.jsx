@@ -171,7 +171,6 @@ const ProfileForm = ({ profile, setProfile, onSave, isNewProfile }) => {
           headers: { "Content-Type": "application/json" },
         });
       } else {
-        // Updating an existing profile
         response = await axios.put(`http://localhost:5000/parent/child/update/${profile._id}`, profile, {
           withCredentials: true,
           headers: { "Content-Type": "application/json" },
@@ -391,14 +390,14 @@ const ChildProfile = () => {
                 <p>No child profiles available.</p>
               ) : (
                 profiles.map(profile => (
-                  <div key={profile._id} className="mb-6"> {/* Use _id as the key */}
+                  <div key={profile._id} className="mb-6"> 
                     <ChildProfileView profile={profile} />
-                    <Link
-                      to={`parent/cp/update/${profile._id}`} // Use _id in the link
+                    {/* <Link 
+                      to={`update/${profile._id}`}
                       className="mt-2 inline-block bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600"
                     >
-                      Update Profile
-                    </Link>
+                       Update Profile
+                    </Link> */}
                   </div>
                 ))
               )}

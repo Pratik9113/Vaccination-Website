@@ -1,18 +1,20 @@
+import VaccinationCenter from "../../models/vaccinationCenterModels/vaccinationCenterModel.js";
 import vaccineModelSchema from "../../models/vaccinationCenterModels/vaccineModel.js";
-
-
 const createVaccine = async (req, res) => {
     try {
         const { email, name, type, manufacturer, doseCount, stock, expiryDate, description } = req.body;
-
-        // Validate required fields
+        console.log(req.body);
         if (!email || !name || !type || !manufacturer || !doseCount || !stock || !expiryDate || !description) {
             return res.status(400).json({ message: "All fields are required" });
         }
 
-        // Create new vaccine document
-        const vaccine = new vaccineModelSchema({
-            email,
+        const vaccinationCenter = await VaccinationCenter.findOne({ email });
+        
+        if (!vaccinationCenter) {
+            return res.status(404).json({ message: "Vaccination center not found" });
+        }
+
+        vaccinationCenter.vaccineDetails.push({
             name,
             type,
             manufacturer,
@@ -22,22 +24,21 @@ const createVaccine = async (req, res) => {
             description,
         });
 
-        // Save the vaccine to the database
-        await vaccine.save();
+        await vaccinationCenter.save();
 
-        // Send success response
         res.status(201).json({
+            success: true,
             message: "Vaccine created successfully",
-            data: vaccine,
         });
     } catch (error) {
+        console.error("Error creating vaccine:", error);
         res.status(500).json({
+            success: false,
             message: "Error creating vaccine",
             error: error.message,
         });
     }
 };
-
 const getAllVaccines = async(req,res) =>{
     try {
         const vaccines = await vaccineModelSchema.find();
