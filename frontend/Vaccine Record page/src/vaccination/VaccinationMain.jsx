@@ -10,18 +10,23 @@ import VaccineAdd from '../pages/VaccineAdd';
 
 const VaccinationMain = () => {
     return (
-        <div className="vaccination-app">
-            <SidebarVaccine />
-            <Routes>
-                <Route path="/vaccine-register" element={<VaccineRegisterForm />} />
-                <Route path="/center-info" element={<CenterInfo />} />
-                <Route path="/schedule-viewer" element={<ScheduleViewer />} />
-                <Route path="/notify-parent" element={<Notify />} />
-                <Route path="/vaccine-add" element={<VaccineAdd />} />
+        <div className="vaccination-app flex h-screen">
+            <div className="w-1/3 bg-gray-200">
+                <SidebarVaccine />
+            </div>
 
-            </Routes>
+            <div className="w-2/3">
+                <Routes>
+                    <Route path="/vaccine-register" element={<VaccineRegisterForm />} />
+                    <Route path="/center-info" element={<CenterInfo />} />
+                    <Route path="/schedule-viewer" element={<ScheduleViewer />} />
+                    <Route path="/notify-parent" element={<Notify />} />
+                    <Route path="/vaccine-add" element={<VaccineAdd />} />
+                </Routes>
+            </div>
         </div>
     );
+
 };
 
 export default VaccinationMain;
