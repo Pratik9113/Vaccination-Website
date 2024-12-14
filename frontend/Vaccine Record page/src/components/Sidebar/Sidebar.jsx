@@ -52,10 +52,6 @@ const SidebarVaccine = () => {
                 </ul>
             </div>
             <div className="h-screen flex-1 p-7 bg-white overflow-auto">
-                {/* <Routes>
-          <Route path="/vaccine-register" element={<VaccineRegisterForm />} />
-          <Route path="/" element={<h1 className="text-2xl font-semibold">Home Page</h1>} />
-        </Routes> */}
             </div>
         </div>
     );

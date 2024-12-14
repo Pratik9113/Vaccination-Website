@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { toast } from "react-toastify";
 
@@ -6,6 +6,8 @@ const ScheduleViewer = () => {
     const [email, setEmail] = useState('');
     const [searchResults, setSearchResults] = useState([]); // Changed to an array
     const [error, setError] = useState('');
+
+
 
     const handleSearch = async () => {
         try {
@@ -30,7 +32,6 @@ const ScheduleViewer = () => {
             setError('Error fetching booking details. Please try again.');
         }
     };
-
     const handleMarkDone = async (vaccineResult) => { // Pass vaccineResult to this function
         try {
             // Ensure that the required data is present
@@ -112,6 +113,9 @@ const ScheduleViewer = () => {
                                 >
                                     Mark as Done
                                 </button>
+                            )}
+                            {result.status === 'done' && (
+                                <h5>Already Done</h5>
                             )}
                         </div>
                     ))}
