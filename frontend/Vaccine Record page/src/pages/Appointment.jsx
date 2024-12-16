@@ -30,13 +30,13 @@ const Appointment = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:5000/parent/child/book/book-vaccine', formData, {
+            const response = await axios.post('https://vaccination-website.onrender.com/parent/child/book/book-vaccine', formData, {
                 withCredentials: true,
                 headers: { "Content-Type": "application/json" },
             });
 
 
-            const sendEmail = await axios.post(`http://localhost:5000/api/mail/book-vaccine`,
+            const sendEmail = await axios.post(`https://vaccination-website.onrender.com/api/mail/book-vaccine`,
                 {
                     email: formData.email,
                     vaccinationEmail: formData.vaccinationEmail,

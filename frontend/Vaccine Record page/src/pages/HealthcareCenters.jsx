@@ -42,7 +42,7 @@ const HealthcareCenters = () => {
     useEffect(() => {
         const fetchHealthCareCenters = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/vaccine/center/get-vaccination-center');
+                const response = await axios.get('https://vaccination-website.onrender.com/vaccine/center/get-vaccination-center');
                 setHealthcareCenters(response.data.data);
             } catch (error) {
                 console.log('Error Fetching data ', error);

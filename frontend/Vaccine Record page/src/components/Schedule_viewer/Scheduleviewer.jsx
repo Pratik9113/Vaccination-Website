@@ -14,7 +14,7 @@ const ScheduleViewer = () => {
 
     const handleSearch = async () => {
         try {
-            const response = await axios.get(`http://localhost:5000/parent/child/book/get-vaccine-details/${email}`, {
+            const response = await axios.get(`https://vaccination-website.onrender.com/parent/child/book/get-vaccine-details/${email}`, {
                 withCredentials: true,
                 headers: {
                     'Content-Type': 'application/json',
@@ -42,7 +42,7 @@ const ScheduleViewer = () => {
                 return;
             }
 
-            const response = await axios.put('http://localhost:5000/parent/child/book/update-child-vaccine', {
+            const response = await axios.put('https://vaccination-website.onrender.com/parent/child/book/update-child-vaccine', {
                 centerEmail : centerEmail,
                 email: vaccineResult.email,
                 vaccine: vaccineResult.vaccine,
