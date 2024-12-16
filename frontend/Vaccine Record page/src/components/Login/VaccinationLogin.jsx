@@ -22,7 +22,7 @@ const VaccinationLogin = ({ setVaccinationLogin }) => {
 
     const onLogin = async (event) => {
         event.preventDefault();
-        let newUrl = `http://localhost:5000/vaccine`
+        let newUrl = `https://vaccination-website.onrender.com/vaccine`
 
         if (currState === 'Login') {
             newUrl += "/user/vaccine-user-login"

@@ -13,7 +13,7 @@ import bookVaccineRouter from "./routes/bookVaccineRoute.js";
 import startCron from "./node_cron.js";
 
 const app = express();
-const serverLive = process.env.PORT || 5000;
+const serverLive = 5000;
 
 const allowedOrigins = [
     'http://localhost:5173',

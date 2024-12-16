@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import {StoreContext} from "../context/StoreContext"
+import { StoreContext } from "../context/StoreContext"
 import { useContext } from "react";
 const VaccineAdd = () => {
     const { email } = useContext(StoreContext);
@@ -33,9 +33,9 @@ const VaccineAdd = () => {
                 }
             );
 
-            if(response.data.success){
+            if (response.data.success) {
                 toast.success(response.data.message);
-            }else{
+            } else {
                 toast.success(response.data.message)
             }
             setname("");

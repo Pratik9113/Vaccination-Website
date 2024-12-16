@@ -10,13 +10,13 @@
 
 //   useEffect(() => {
 //     // Fetch profiles from backend
-//     axios.get('http://localhost:5000/profiles')
+//     axios.get('https://vaccination-website.onrender.com/profiles')
 //       .then(response => setProfiles(response.data))
 //       .catch(error => console.error('Error fetching profiles:', error));
 //   }, []);
 
 //   const handleSave = (profile, isNewProfile = false) => {
-//     const url = isNewProfile ? 'http://localhost:5000/profiles' : `http://localhost:5000/profiles/${profile._id}`;
+//     const url = isNewProfile ? 'https://vaccination-website.onrender.com/profiles' : `https://vaccination-website.onrender.com/profiles/${profile._id}`;
 //     const method = isNewProfile ? 'POST' : 'PUT';
 
 //     axios({ method, url, data: profile })
