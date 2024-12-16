@@ -1,5 +1,6 @@
 import Appointment from "../../models/bookVaccineModels.js"; 
 import ChildProfile from "../../models/parentModels/childModel.js";
+import vaccineModelSchema from "../../models/vaccinationCenterModels/vaccineModel.js";
 
 // Function to book a vaccine appointment
 const bookingVaccine = async (req, res) => {
@@ -58,7 +59,7 @@ const getBookingByEmail = async (req, res) => {
 const updateChildProfileVaccine = async (req, res) => {
     console.log('Update vaccine route hit');
 
-    const { email, vaccine, childName, status } = req.body;
+    const { centerEmail, email, vaccine, childName, status } = req.body;
 
     try {
         console.log('Request data:', req.body);
@@ -68,6 +69,15 @@ const updateChildProfileVaccine = async (req, res) => {
             return res.status(404).json({ success: false, message: 'Child not found' });
         }
 
+        const vaccineDoseCountDecrease = await vaccineModelSchema.findOne({ centerEmail, vaccine });
+        if (vaccineDoseCountDecrease) {
+            console.log(vaccineDoseCountDecrease);
+            vaccineDoseCountDecrease.doseCount = vaccineDoseCountDecrease.doseCount - 1;
+            await vaccineDoseCountDecrease.save();
+            console.log('Vaccine dose count decreased successfully');
+        } else {
+            console.log('Vaccine not found for the specified center and email');
+        }
 
         const appointment = await Appointment.findOne({ email, childName, vaccine });
         console.log("Appointment data ")

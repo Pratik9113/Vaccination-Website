@@ -49,7 +49,9 @@ app.use(limiter);
 
 
 // Routes
-
+app.use("/", ()=>{
+    console.log('server')
+})
 // Parent routes for user and child management
 app.use("/parent/user", parentUserRouter);
 app.use("/parent/child", parentCreateRouter);

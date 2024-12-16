@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import { toast } from "react-toastify";
+import { StoreContext } from '../../context/StoreContext';
 
 const ScheduleViewer = () => {
+    const { email: centerEmail } = useContext(StoreContext);
+    console.log(centerEmail)
     const [email, setEmail] = useState('');
     const [searchResults, setSearchResults] = useState([]); // Changed to an array
     const [error, setError] = useState('');
@@ -34,13 +37,13 @@ const ScheduleViewer = () => {
     };
     const handleMarkDone = async (vaccineResult) => { // Pass vaccineResult to this function
         try {
-            // Ensure that the required data is present
             if (!vaccineResult) {
                 setError('No vaccine record found to mark as done.');
                 return;
             }
 
             const response = await axios.put('http://localhost:5000/parent/child/book/update-child-vaccine', {
+                centerEmail : centerEmail,
                 email: vaccineResult.email,
                 vaccine: vaccineResult.vaccine,
                 childName: vaccineResult.childName,
