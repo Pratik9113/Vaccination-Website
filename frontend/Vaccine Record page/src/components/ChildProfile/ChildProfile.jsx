@@ -114,7 +114,7 @@ const ProfileForm = ({ profile, setProfile, onSave, isNewProfile }) => {
   useEffect(() => {
     setProfile((prev) => ({
       ...prev,
-      email, 
+      email,
     }));
   }, [email, setProfile]);
 
@@ -390,7 +390,7 @@ const ChildProfile = () => {
                 <p>No child profiles available.</p>
               ) : (
                 profiles.map(profile => (
-                  <div key={profile._id} className="mb-6"> 
+                  <div key={profile._id} className="mb-6">
                     <ChildProfileView profile={profile} />
                     {/* <Link 
                       to={`update/${profile._id}`}

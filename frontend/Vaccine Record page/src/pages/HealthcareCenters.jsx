@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import './HealthcareCenters.css';
 import axios from 'axios';
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 const vaccines = [
     { name: 'BCG', quantity: Math.floor(Math.random() * 100) }
 ];
@@ -11,7 +11,7 @@ const vaccines = [
 const HealthcareCenters = () => {
     const navigate = useNavigate();
 
-    const handleAppointmentButton = (setEmail) =>{
+    const handleAppointmentButton = (setEmail) => {
         navigate(`/appointment/${setEmail}`);
     }
 

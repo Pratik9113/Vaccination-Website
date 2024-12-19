@@ -43,7 +43,7 @@ const ScheduleViewer = () => {
             }
 
             const response = await axios.put('https://vaccination-website.onrender.com/parent/child/book/update-child-vaccine', {
-                centerEmail : centerEmail,
+                centerEmail: centerEmail,
                 email: vaccineResult.email,
                 vaccine: vaccineResult.vaccine,
                 childName: vaccineResult.childName,
