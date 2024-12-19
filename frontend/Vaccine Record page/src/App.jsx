@@ -9,7 +9,6 @@ import ChildMainClass from './components/ChildMainClass/ChildMainClass';
 import VaccinationMain from './vaccination/VaccinationMain';
 import Home from './components/Home/Home';
 import HealthcareCenters from '../src/pages/HealthcareCenters'
-import Chatbot from './pages/chatbot';
 import Appointment from './pages/Appointment';
 function App() {
   const [showLogin, setShowLogin] = useState(false);
