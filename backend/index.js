@@ -17,6 +17,7 @@ const serverLive = process.env.PORT || 4512;
 
 const allowedOrigins = [
     'http://localhost:5173',
+    'https://vaccination-seven.vercel.app'
 ];
 
 const corsOptions = {
