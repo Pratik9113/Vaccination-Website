@@ -24,7 +24,7 @@ function App() {
           <Route path="/" element={<Home />}></Route>
           <Route path="/appointment/:email" element={<Appointment />}></Route>
           <Route path="/vaccine-center/" element={<HealthcareCenters />}></Route>
-          <Route path="/chatbot" element={<Chatbot />}></Route>
+          {/* <Route path="/chatbot" element={<Chatbot />}></Route> */}
           <Route path="/parent/*" element={<ChildMainClass />}></Route>
           <Route path="/vaccination-center/*" element={<VaccinationMain />}></Route>
         </Routes>

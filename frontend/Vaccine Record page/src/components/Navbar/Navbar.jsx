@@ -100,7 +100,7 @@ const Navbar = ({ setShowLogin }) => {
                     <Link to="/parent/view" className="hover:text-blue-200 transition-colors font-bold">Child Details</Link>
                     <Link to="/vaccine-center" className="hover:text-blue-200 transition-colors font-bold">Vaccination-Center</Link>
                     <Link to="/appointment" className="hover:text-blue-200 transition-colors font-bold">Appointment</Link>
-                    <Link to="/chatbot" className="hover:text-blue-200 transition-colors font-bold">Q&A</Link>
+                    {/* <Link to="/chatbot" className="hover:text-blue-200 transition-colors font-bold">Q&A</Link> */}
                     <Link to="/parent/cp" className="hover:text-blue-200 transition-colors font-bold">Child Profile</Link>
                 </nav>
 
