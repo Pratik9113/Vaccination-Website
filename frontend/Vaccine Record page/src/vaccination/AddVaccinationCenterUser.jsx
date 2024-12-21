@@ -89,7 +89,7 @@ const AddVaccinationCenterUser = () => {
     try {
       console.log(flatData);  // Debugging log
 
-      const response = await axios.post('http://localhost:5000/vaccine/center/create', flatData);
+      const response = await axios.post('https://vaccination-website.onrender.com/vaccine/center/create', flatData);
       setMessage(response.data.message);
 
       if (response.data.success) {

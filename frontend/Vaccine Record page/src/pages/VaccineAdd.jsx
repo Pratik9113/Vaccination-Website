@@ -20,7 +20,7 @@ const VaccineAdd = () => {
 
         try {
             const response = await axios.post(
-                'http://localhost:5000/vaccine/center/update-vaccine-count',
+                'https://vaccination-website.onrender.com/vaccine/center/update-vaccine-count',
                 {
                     email,
                     name,
@@ -90,7 +90,7 @@ const VaccineAdd = () => {
                                 <option value="DTP">DTP</option>
                                 <option value="MMR">MMR</option>
                                 <option value="HPV">HPV</option>
-                        
+
                             </select>
                         </div>
 

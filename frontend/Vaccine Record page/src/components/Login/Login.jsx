@@ -30,7 +30,7 @@ const Login = ({ setShowLogin }) => {
         event.preventDefault();
 
         // Correct URL formatting
-        let newUrl = `http://localhost:5000/${loginType}`;
+        let newUrl = `https://vaccination-website.onrender.com/${loginType}`;
 
         if (currState === "Login") {
             newUrl += loginType === "parent"

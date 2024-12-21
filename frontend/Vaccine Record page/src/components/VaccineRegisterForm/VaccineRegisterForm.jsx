@@ -89,7 +89,7 @@ const VaccineRegisterForm = () => {
         // Proceed with registration after setting coordinates
         if (validateForm()) {
             try {
-                const response = await axios.post(`http://localhost:5000/vaccine/center/create`, formData, {
+                const response = await axios.post(`https://vaccination-website.onrender.com/vaccine/center/create`, formData, {
                     withCredentials: true,
                     headers: { "Content-Type": "application/json" },
                 })
