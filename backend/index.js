@@ -17,7 +17,8 @@ const serverLive = process.env.PORT || 4512;
 
 const allowedOrigins = [
     'http://localhost:5173',
-    'https://vaccination-1131aoi72-pratiks-projects-a5401834.vercel.app/'
+    'https://vaccination-website-three.vercel.app'
+
 ];
 
 const corsOptions = {
