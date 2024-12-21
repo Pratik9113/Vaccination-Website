@@ -42,7 +42,7 @@ const HealthcareCenters = () => {
     useEffect(() => {
         const fetchHealthCareCenters = async () => {
             try {
-                const response = await axios.get('https://vaccination-website.onrender.com/vaccine/center/get-vaccination-center');
+                const response = await axios.get('http://localhost:5000/vaccine/center/get-vaccination-center');
                 setHealthcareCenters(response.data.data);
             } catch (error) {
                 console.log('Error Fetching data ', error);
@@ -103,10 +103,10 @@ const HealthcareCenters = () => {
                 </select>
                 <button className="search-button">Search</button>
             </div>
-            <div className="grid-container">
+            <div className="grid grid-cols-3 p-5">
                 {filteredCenters.map((center, index) => (
                     <div key={index} className="healthcare-card">
-                        <img src="../../public/carousel3.jpg" alt={center.name} />
+                        <div className="flex justify-center"><img className='w-90 h-90' src="../../public/carousel3.jpg" alt={center.name} /></div>
                         <h3>{center.name}</h3>
                         <button
                             className="check-vaccine-btn"

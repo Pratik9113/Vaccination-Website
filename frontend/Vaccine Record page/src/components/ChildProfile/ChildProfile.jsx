@@ -166,12 +166,12 @@ const ProfileForm = ({ profile, setProfile, onSave, isNewProfile }) => {
       let response;
       if (isNewProfile) {
         // Creating a new profile
-        response = await axios.post(`https://vaccination-website.onrender.com/parent/child/child-create`, profile, {
+        response = await axios.post(`http://localhost:5000/parent/child/child-create`, profile, {
           withCredentials: true,
           headers: { "Content-Type": "application/json" },
         });
       } else {
-        response = await axios.put(`https://vaccination-website.onrender.com/parent/child/update/${profile._id}`, profile, {
+        response = await axios.put(`http://localhost:5000/parent/child/update/${profile._id}`, profile, {
           withCredentials: true,
           headers: { "Content-Type": "application/json" },
         });
@@ -344,11 +344,10 @@ const ChildProfile = () => {
   const [newProfile, setNewProfile] = useState(initialProfileState);
   const navigate = useNavigate();
 
-  // Fetch child profiles from the server when the component loads
   useEffect(() => {
     const fetchProfiles = async () => {
       try {
-        const response = await axios.get('https://vaccination-website.onrender.com/parent/child/children', {
+        const response = await axios.get('http://localhost:5000/parent/child/children', {
           withCredentials: true,
           headers: { "Content-Type": "application/json" },
         });

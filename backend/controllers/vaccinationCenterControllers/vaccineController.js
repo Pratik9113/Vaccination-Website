@@ -7,38 +7,47 @@ const createVaccine = async (req, res) => {
         if (!email || !name || !type || !manufacturer || !doseCount || !stock || !expiryDate || !description) {
             return res.status(400).json({ message: "All fields are required" });
         }
-
         const vaccinationCenter = await VaccinationCenter.findOne({ email });
-        
         if (!vaccinationCenter) {
             return res.status(404).json({ message: "Vaccination center not found" });
         }
-
-        vaccinationCenter.vaccineDetails.push({
-            name,
-            type,
-            manufacturer,
-            doseCount,
-            stock,
-            expiryDate,
-            description,
-        });
+        const existingVaccine = vaccinationCenter.vaccineDetails.find(
+            (vaccine) => vaccine.name === name && vaccine.type === type
+        );
+        if (existingVaccine) {
+            existingVaccine.doseCount += doseCount;
+            existingVaccine.stock += stock;        
+            existingVaccine.expiryDate = expiryDate;
+        } else {
+            vaccinationCenter.vaccineDetails.push({
+                name,
+                type,
+                manufacturer,
+                doseCount,
+                stock,
+                expiryDate,
+                description,
+            });
+        }
 
         await vaccinationCenter.save();
 
         res.status(201).json({
             success: true,
-            message: "Vaccine created successfully",
+            message: existingVaccine
+                ? "Vaccine updated successfully"
+                : "Vaccine created successfully",
         });
     } catch (error) {
-        console.error("Error creating vaccine:", error);
+        console.error("Error creating/updating vaccine:", error);
         res.status(500).json({
             success: false,
-            message: "Error creating vaccine",
+            message: "Error creating/updating vaccine",
             error: error.message,
         });
     }
 };
+
 const getAllVaccines = async(req,res) =>{
     try {
         const vaccines = await vaccineModelSchema.find();

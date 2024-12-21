@@ -5,9 +5,11 @@ import { Typography } from '@mui/material';
 import 'chart.js/auto';
 import './VaccinationRecord.css';
 import { Clock, Activity, Phone, MapPin } from 'lucide-react';
+import { assets } from '../../../assets/assets';
 
 const VaccinationRecord = () => {
   const [childProfiles, setChildProfiles] = useState([]);
+
 
   useEffect(() => {
     fetchChildProfiles();
@@ -16,7 +18,7 @@ const VaccinationRecord = () => {
   const fetchChildProfiles = async () => {
     try {
       const response = await axios.get(
-        `https://vaccination-website.onrender.com/parent/child/children`,
+        `http://localhost:5000/parent/child/children`,
         {
           withCredentials: true,
           headers: { 'Content-Type': 'application/json' },
@@ -97,26 +99,20 @@ const VaccinationRecord = () => {
         <main className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="bg-white shadow overflow-hidden sm:rounded-lg">
             <div className="px-4 py-5 sm:px-6 flex items-center">
-              <img src="babyheadshot.jpg" alt="Child" className="w-24 h-24 rounded-full mr-4" />
+              <img src={assets.childImage} alt="Child" className="w-24 h-24 rounded-full mr-4" />
               <div>
                 <h3 className="text-lg leading-6 font-medium text-gray-900">{child.name}</h3>
                 <p className="mt-1 max-w-2xl text-sm text-gray-500">
                   {child.age} years old • {child.gender}
                 </p>
-                <p className="mt-1 max-w-2xl text-sm text-gray-500">Next appointment: 15 May 2024</p>
+                <p className="mt-1 max-w-2xl text-sm text-gray-500">Next appointment: *** </p>
               </div>
             </div>
             <div className="border-t border-gray-200 px-4 py-5 sm:px-6">
               <dl className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
                 <div className="sm:col-span-1">
-                  <dt className="text-sm font-medium text-gray-500">Parent/Guardian</dt>
-                  <dd className="mt-1 text-sm text-gray-900">Emily Johnson</dd>
-                </div>
-                <div className="sm:col-span-1">
-                  <dt className="text-sm font-medium text-gray-500">Contact</dt>
-                  <dd className="mt-1 text-sm text-gray-900 flex items-center">
-                    <Phone size={16} className="mr-2" /> blank
-                  </dd>
+                  <dt className="text-sm font-medium text-gray-500">Child DOB</dt>
+                  <dd className="mt-1 text-sm text-gray-900">{new Date(child.dob).toISOString().split('T')[0]}</dd>
                 </div>
                 <div className="sm:col-span-1">
                   <dt className="text-sm font-medium text-gray-500">Address</dt>
@@ -127,7 +123,7 @@ const VaccinationRecord = () => {
                 </div>
                 <div className="sm:col-span-1">
                   <dt className="text-sm font-medium text-gray-500">Primary Care Doctor</dt>
-                  <dd className="mt-1 text-sm text-gray-900">Dr. Amanda Smith</dd>
+                  <dd className="mt-1 text-sm text-gray-900">None</dd>
                 </div>
               </dl>
             </div>
@@ -159,7 +155,7 @@ const VaccinationRecord = () => {
           </div>
 
           {/* Vaccinations  Done */}
-          <div className="bg-white shadow overflow-hidden sm:rounded-lg">
+          {/* <div className="bg-white shadow overflow-hidden sm:rounded-lg">
             <div className="px-4 py-5 sm:px-6">
               <h3 className="text-lg leading-6 font-medium text-gray-900">Upcoming Vaccinations</h3>
             </div>
@@ -184,10 +180,10 @@ const VaccinationRecord = () => {
                 ))
               )}
             </ul>
-          </div>
+          </div> */}
 
           {/* Vaccination History */}
-          <div className="bg-white shadow overflow-hidden sm:rounded-lg">
+          <div className="bg-white shadow overflow-hidden sm:rounded-lg w-full">
             <div className="px-4 py-5 sm:px-6">
               <h3 className="text-lg leading-6 font-medium text-gray-900">Vaccination History</h3>
             </div>
@@ -203,7 +199,12 @@ const VaccinationRecord = () => {
                         <p className="text-sm font-medium text-gray-900">{vaccine.vaccineName}</p>
                       </div>
                       <div className="ml-2 flex-shrink-0 flex">
-                        <p className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${vaccine.vaccinationStatus === 'Administered' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                        <p
+                          className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${vaccine.vaccinationStatus === 'Administered'
+                            ? 'bg-green-100 text-green-800'
+                            : 'bg-red-100 text-red-800'
+                            }`}
+                        >
                           {vaccine.vaccinationStatus}
                         </p>
                       </div>
@@ -214,21 +215,25 @@ const VaccinationRecord = () => {
             </ul>
           </div>
 
+
           {/* Generate Certificate */}
+        </main>
+        <div className="flex justify-center">
           <button
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
             onClick={() => handleGenerateCertificate(child)}
           >
             Generate Certificate
           </button>
-        </main>
+        </div>
+
       </div>
     );
   };
 
   return (
     <div className="container mx-auto py-4">
-      <Typography variant="h4" component="h1" className="mb-6">
+      <Typography variant="h4" component="h1" className="mb-6 text-center">
         Vaccination Records
       </Typography>
       {childProfiles.length === 0 ? (

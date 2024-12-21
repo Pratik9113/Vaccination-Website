@@ -14,7 +14,7 @@ const ConnectWithDoctor = () => {
     const fetchDoctorProfiles = async () => {
         try {
             const response = await axios.get(
-                `https://vaccination-website.onrender.com/parent/child/doctor`
+                `http://localhost:5000/parent/child/doctor`
             );
 
             if (response.data.success) {

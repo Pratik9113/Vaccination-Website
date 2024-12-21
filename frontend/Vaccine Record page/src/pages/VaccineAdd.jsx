@@ -20,7 +20,7 @@ const VaccineAdd = () => {
 
         try {
             const response = await axios.post(
-                'https://vaccination-website.onrender.com/vaccine/center/update-vaccine-count',
+                'http://localhost:5000/vaccine/center/update-vaccine-count',
                 {
                     email,
                     name,
@@ -78,14 +78,22 @@ const VaccineAdd = () => {
                         </div>
                         <div className="mb-4">
                             <label className="block text-gray-700">Vaccine Name</label>
-                            <input
-                                type="text"
+                            <select
                                 className="w-full p-2 border rounded"
                                 value={name}
                                 onChange={(e) => setname(e.target.value)}
                                 required
-                            />
+                            >
+                                <option value="" disabled>Select a vaccine</option>
+                                <option value="BCG">BCG</option>
+                                <option value="Polio">Polio</option>
+                                <option value="DTP">DTP</option>
+                                <option value="MMR">MMR</option>
+                                <option value="HPV">HPV</option>
+                        
+                            </select>
                         </div>
+
                         <div className="mb-4">
                             <label className="block text-gray-700">Type</label>
                             <input

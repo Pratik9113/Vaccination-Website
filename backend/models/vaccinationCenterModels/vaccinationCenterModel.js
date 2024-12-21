@@ -18,7 +18,6 @@ const vaccinationCenterSchema = new mongoose.Schema({
     weekdays: { type: String },  
     weekends: { type: String } 
   },
-  capacity: { type: Number, required: true },
   vaccineDetails:[{
       name :{type:String, required:true, unique:true},
       type:{type:String,required:true},

@@ -14,18 +14,17 @@ export const vaccinationCenterInfo = async (req, res) => {
         lng,
         weekdays,
         weekends,
-        capacity,
+        
       } = req.body;
       console.log(req.body);
   
-      if (!name || !phone || !address || !city || !state || !postalCode || !capacity ) {
+      if (!name || !phone || !address || !city || !state || !postalCode ) {
         return res.status(400).json({
           success: false,
           message: "Please provide all required fields",
         });
       }
   
-      // Create a new vaccination center object
       const newVaccinationCenter = new VaccinationCenter({
         userId,
         email,
@@ -45,10 +44,8 @@ export const vaccinationCenterInfo = async (req, res) => {
           weekdays,
           weekends,
         },
-        capacity,
       });
   
-      // Save the new vaccination center to the database
       const savedVaccinationCenter = await newVaccinationCenter.save();
   
       return res.status(201).json({
@@ -101,18 +98,13 @@ const updateVaccinationCenterInfoByAdmin = async(req,res)=>{
 
 
 const getVaccinationCenterInfoByAdmin = async (req, res) => {
-  // Extract email from req.user which should be set by jwtAuth middleware
   const { email } = req.body;
   console.log("Fetching centers for email:", email); // Log the email for debugging
   
   try {
-      // Fetch vaccination centers based on the user's email
       const vaccineCenterProfiles = await VaccinationCenter.find({ email });
-
-      // Respond with success and data
       return res.json({ success: true, data: vaccineCenterProfiles });
   } catch (error) {
-      // Log any errors encountered during the database operation
       console.error("Error fetching vaccination center profiles:", error);
       return res.status(500).json({ success: false, message: "Error fetching vaccination center profiles" });
   }

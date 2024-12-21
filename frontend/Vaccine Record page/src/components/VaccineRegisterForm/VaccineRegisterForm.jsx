@@ -1,12 +1,14 @@
 import axios from 'axios';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { StoreContext } from '../../context/StoreContext';
 
 const VaccineRegisterForm = () => {
     const navigate = useNavigate();
+    const { email } = useContext(StoreContext)
     const [formData, setFormData] = useState({
-        email: '',
+        email: email,
         name: '',
         phone: '',
         address: '',
@@ -17,14 +19,12 @@ const VaccineRegisterForm = () => {
         longitude: '',
         weekdays: '',
         weekends: '',
-        capacity: 0,
     });
 
     const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        // Automatically fetch user's location when the component mounts
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 (position) => {
@@ -68,7 +68,6 @@ const VaccineRegisterForm = () => {
         if (!formData.longitude) newErrors.longitude = 'Longitude is required';
         if (!formData.weekdays) newErrors.weekdays = 'Weekday hours are required';
         if (!formData.weekends) newErrors.weekends = 'Weekend hours are required';
-        if (formData.capacity <= 0) newErrors.capacity = 'Capacity must be greater than 0';
 
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
@@ -90,7 +89,7 @@ const VaccineRegisterForm = () => {
         // Proceed with registration after setting coordinates
         if (validateForm()) {
             try {
-                const response = await axios.post(`https://vaccination-website.onrender.com/vaccine/center/create`, formData, {
+                const response = await axios.post(`http://localhost:5000/vaccine/center/create`, formData, {
                     withCredentials: true,
                     headers: { "Content-Type": "application/json" },
                 })
@@ -98,7 +97,6 @@ const VaccineRegisterForm = () => {
 
                 if (response.data.success) {
                     localStorage.setItem('token', response.data.token);
-                    toast.success(response.data.message);
                 }
                 setFormData({
                     email: '',
@@ -112,7 +110,6 @@ const VaccineRegisterForm = () => {
                     longitude: '',
                     weekdays: '',
                     weekends: '',
-                    capacity: 0,
                 });
                 toast.success('Vaccination Center registered successfully!');
             } catch (error) {
@@ -143,7 +140,7 @@ const VaccineRegisterForm = () => {
                         value={formData.email}
                         onChange={handleChange}
                         className={`w-full p-2 border rounded ${errors.email ? 'border-red-500' : ''}`}
-                        required
+                        disabled
                     />
                     {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
                 </div>
@@ -269,18 +266,7 @@ const VaccineRegisterForm = () => {
                     />
                     {errors.weekends && <p className="text-red-500 text-sm mt-1">{errors.weekends}</p>}
                 </div>
-                <div>
-                    <label className="block mb-1">Capacity</label>
-                    <input
-                        type="number"
-                        name="capacity"
-                        value={formData.capacity}
-                        onChange={handleChange}
-                        className={`w-full p-2 border rounded ${errors.capacity ? 'border-red-500' : ''}`}
-                        required
-                    />
-                    {errors.capacity && <p className="text-red-500 text-sm mt-1">{errors.capacity}</p>}
-                </div>
+
                 <button
                     type="submit"
                     className={`w-full p-2 text-white bg-blue-600 rounded ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
